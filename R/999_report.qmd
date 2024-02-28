@@ -1,0 +1,98 @@
+---
+title: "Revisiting the meaning of cognitive impairment in older adults"
+format: 
+  docx:
+    reference-doc: reference.docx
+    embed-resources: true
+editor: visual
+author:
+  - name: Zachary J. Kunicki
+    orcid: 0000-0002-3466-7589
+    corresponding: true
+    affiliation:
+      - name: Brown University
+        department: Psychiatry and Human Behavior
+        city: Providence
+        state: RI
+  - name: Douglas Tommet
+    affiliation: 
+      - name: Brown University
+        department: Psychiatry and Human Behavior
+        city: Providence
+        state: RI
+  - name: Nicole M. Armstrong
+    orcid: 0000-0002-2479-1076
+    affiliation: 
+      - name: Brown University
+        department: Psychiatry and Human Behavior
+        city: Providence
+        state: RI
+  - name: Richard N. Jones
+    orcid: 0000-0002-1049-218X
+    affiliation: 
+      - name: Brown University
+        department: Psychiatry and Human Behavior
+        city: Providence
+        state: RI
+keywords: 
+  - Mini-mental state examination
+  - Community samples
+  - Clinical cut-points
+  - Dementia
+  - Geriatrics        
+---
+
+## Introduction
+
+The Mini-Mental State Examination (MMSE) is a widely used screening measure for dementia.{Folstein, 1983 #1018} The MMSE contains 12 items assessing a number of domains and is scored 0-30 with higher scores indicating more correct answers.{Folstein, 1975 #1601} A cut point of 23 was suggested by Anthony and colleagues{Anthony, 1982 #1832} and has become the standard for flagging individuals with a high probability of satisfying criteria for a neurologic or psychiatric diagnosis. That cut point was intuited based on experience with hospitalized patients.{Anthony, 1982 #1832} Folstein and colleagues (1985){Folstein, 1985 #1163} reported – using data from a community-based sample from Baltimore Maryland (n = 564) -- that a third of older adults (aged 65 and older) with scores of 23 or less had no diagnosable psychiatric disorder, and only about a third had a diagnosable dementia, delirium, or developmental disorder. Our purpose is to update Folstein et al’s (1985) description of the meaning of cognitive impairment in older adults using the Aging, Demographics and Memory Study (ADAMS).{Langa, 2005 #957}
+
+## Methods
+
+The ADAMS study (2001-2003, n = 856, age 70+), was designed to generate national estimates of dementia prevalence and incidence. Participants were evaluated by trained clinicians and diagnoses were assigned by an interdisciplinary panel (which did have access to information about participant performance on the MMSE, in addition to other cognitive performance tests). We collapsed diagnoses into four groups: Alzheimer disease or related dementia (ADRD), mild cognitive impairment or cognitive impairment no dementia (MCI/CIND), other neuropsychiatric or cognitive disorder, and cognitively normal (see Table S1). To define clinical versus non-clinical samples we used participant self-report of ever having visited a doctor for memory problems. We used multinomial logistic regression in a sub-sample of 824 participants with non-missing MMSE scores to estimate the probability of being placed into one of the four diagnosis groups as a function of (a restricted cubic spline for) MMSE. Models were estimated separately for the overall sample and the clinical sample. We summarize results by calculating sensitivity, specificity, positive predictive value (PPV), negative predictive value (NPV), Youden’s J, and the conditional probability of a diagnosis at a specific MMSE score (definitions in supplementary materials).
+
+## Results
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+rm(list = setdiff(ls(), lsf.str())[!(setdiff(ls(), lsf.str()) %in% "params")])
+source(here::here("R","001_libraries.R"))
+source(here::here("R","002_folder-paths.R"))
+
+load(here::here(RDS_path, "030_sespnpvppv.Rdata"))
+```
+
+Table 1 shows the performance of the MMSE as a screen for ADRD. At a conventional cut point of ≤ 23, the community sample has a PPV for a dementia of `r community_ppv`%, compared to `r clinical_ppv`% for the clinical sample. A randomly selected person from the community with a MMSE score of exactly 23 has a probability of ADRD of `r community_probadrd`%, compared to `r clinical_probadrd`% in the clinical sample. The maximal Youden's J identifies the optimally balanced cut point for community samples (≤ `r community_maxj`) vs clinic samples (≤ `r clinical_maxj`), but to achieve a comparable PPV (85%), a cut point of 17 is needed in the community sample, versus 26 in the clinic sample. Figure 1 displays stacked bar plots (left side) and stacked histograms (right side) for the overall ADAMS sample (top row) and clinical subsample (bottom row). Supplementary materials show the results for screening for MCI/CIND.
+
+## Discussion
+
+We found that at a conventional cut point of ≤ 23, a dementia diagnosis is about as likely to be present (`r community_ppv`%) as absent (`r 1-community_ppv`%) in a community sample. This result echoes that of Folstein et al (1985),{Folstein, 1985 #1163} who found that 74% of community dwelling older persons living in East Baltimore with MMSE scores of ≤ 23 did not have a dementia diagnosis. In our clinical sample, 93% of those with a MMSE of ≤ 23 would satisfy criteria for a dementia diagnosis. Therefore, the clinical implications of a low MMSE score differ according to the context of contact with an older person. In a general community survey, a low MMSE score (≤ 23) is not particularly suggestive of a dementia, but among patients appearing to a clinician with a complaint of a memory problem, a dementia diagnosis is almost certain. Caveats and limitations worthy of note include the age of the ADAMS data and the lack of separation of the MMSE score from diagnosis. The ADAMS study is unique in its national reach and rigor in collecting and assigning field diagnoses of dementia and other disorders. Nevertheless, a goal of ADAMS was not the evaluation of the screening properties of the MMSE for clinical diagnoses of dementia and other cognitive disorders. That the adjudication panel had access to MMSE scores in making their classification likely results in overly optimistic estimates for the accuracy of the MMSE.
+
+\newpage
+
+## Figure caption
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+rm(list = setdiff(ls(), lsf.str())[!(setdiff(ls(), lsf.str()) %in% "params")])
+source(here::here("R","001_libraries.R"))
+source(here::here("R","002_folder-paths.R"))
+
+figure1 <- readRDS(here::here(images_path, "040_weighted_plot.rds"))
+figure1
+```
+
+*Figure 1: Weighted stacked probability and sample size plots* 
+
+Figure caption: Panels on the left-hand side depict the weighted probability of being in a diagnostic category based on MMSE scores, whereas panels on the right-hand side depict the weighted sample sizes (N) based on MMSE scores. The top row is the overall sample, and the bottom row is participants who have seen a doctor for memory problems. The darkest purple represents persons living with ADRD, the next lightest shade represents persons who are MCI/CIND, the third lightest shade represents persons with other neuropsychiatric disorders, and the lightest purple represents persons who are cognitively normal.
+
+\newpage
+
+## Table 1. Performance of MMSE as screening device for dementia, and conditional probability of dementia.
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+rm(list = setdiff(ls(), lsf.str())[!(setdiff(ls(), lsf.str()) %in% "params")])
+source(here::here("R","001_libraries.R"))
+source(here::here("R","002_folder-paths.R"))
+
+load(here::here(RDS_path, "030_sespnpvppv.Rdata"))
+
+knitr::kable(reducedtable1)
+```
